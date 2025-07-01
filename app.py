@@ -16,6 +16,16 @@ def home():
 def serve_file(filename):
     return send_from_directory(os.path.dirname(os.path.abspath(__file__)), filename)
 
+@app.route("/hello_api")
+def hello_api():
+    return {
+        "name": "Wrinkle Five Star",
+        "species": "Duck",
+        "breed": "American Pekin",
+        "hatching_date": "2020-09-09",
+        "sex": "Male"
+    }
+
 @app.route('/api/execute', methods=['POST'])
 def execute():
     data = request.json
@@ -31,15 +41,7 @@ def execute():
                 return jsonify({'success': False, 'error': result.stderr})
         else:
             exec(code, {'boto3': boto3, 'uuid': uuid})
-@app.route("/hello_api")
-def hello_api():
-    return {
-        "name": "Wrinkle Five Star",
-        "species": "Duck",
-        "breed": "American Pekin",
-        "hatching_date": "2020-09-09",
-        "sex": "Male"
-    }
+
             return jsonify({'success': True})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
